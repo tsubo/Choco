@@ -1,0 +1,29 @@
+<div class="panel panel-default">
+	<div class="list-group">
+		<a class="list-group-item" href="{{siteUrl('admin')}}">
+			ダッシュボード
+			<span class="glyphicon glyphicon-chevron-right pull-right"></span>
+		</a>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<span class="glyphicon glyphicon-floppy-disk"></span>
+		<b>データ</b>
+	</div>
+	{% include 'partial/admin/panel_list_group1.html.twig' with {
+		'list': json_data_counts(),
+		'named_route': 'admin_json_list'
+	} %}
+
+	<div class="panel-heading">
+		<span class="glyphicon glyphicon-picture"></span>
+		<b>画像</b>
+	</div>
+	{% include 'partial/admin/panel_list_group1.html.twig' with {
+		'list': image_counts(),
+		'named_route': 'admin_image_list'
+	} %}
+</div>
+

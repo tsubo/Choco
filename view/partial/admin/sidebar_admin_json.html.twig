@@ -1,0 +1,73 @@
+{% set json_property_counts = json_property_counts(json_name) %}
+{% set cnt = 0 %}
+{% for count in json_property_counts %}
+	{% set cnt = cnt + count|length %}
+{% endfor %}
+{% if cnt > 0 %}
+	<h4>{{json_name|capitalize}}</h4>
+{% endif %}
+<div id="accordion" class="panel-group">
+	{% if json_property_counts.status|length > 0 %}
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+				<h4 class="panel-title">
+					Status
+				</h4>
+			</a>
+		</div>
+		<div id="collapseOne" class="panel-collapse collapse {{ (filter is empty or filter.type == 'status') ? 'in' }}">
+			<div class="panel panel-default">
+				{% include 'partial/admin/panel_list_group2.html.twig' with {
+					'name': 'blog',
+					'filter': 'status',
+					'list': json_property_counts.status,
+					'named_route': 'admin_json_list_filter'
+				} %}
+			</div>
+		</div>
+	</div>
+	{% endif %}
+	{% if json_property_counts.category|length > 0 %}
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+				<h4 class="panel-title">
+					Category
+				</h4>
+			</a>
+		</div>
+		<div id="collapseTwo" class="panel-collapse collapse {{ filter.type == 'category' ? 'in' }}">
+			<div class="panel panel-default">
+				{% include 'partial/admin/panel_list_group2.html.twig' with {
+					'name': 'blog',
+					'filter': 'category',
+					'list': json_property_counts.category,
+					'named_route': 'admin_json_list_filter'
+				} %}
+			</div>
+		</div>
+	</div>
+	{% endif %}
+	{% if json_property_counts.tag|length > 0 %}
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+				<h4 class="panel-title">
+					Tag
+				</h4>
+			</a>
+		</div>
+		<div id="collapseThree" class="panel-collapse collapse {{ filter.type == 'tag' ? 'in' }}">
+			<div class="panel panel-default">
+				{% include 'partial/admin/panel_list_group2.html.twig' with {
+					'name': 'blog',
+					'filter': 'tag',
+					'list': json_property_counts.tag,
+					'named_route': 'admin_json_list_filter'
+				} %}
+			</div>
+		</div>
+	</div>
+	{% endif %}
+</div>

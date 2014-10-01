@@ -1,0 +1,5 @@
+{% for key, message in flash %}
+	<div class="alert alert-{{key}}" role="alert">
+		{{ message|raw }}
+	</div>
+{% endfor %}

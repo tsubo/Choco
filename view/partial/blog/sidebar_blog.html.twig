@@ -1,0 +1,26 @@
+{% set blog_property_counts = blog_property_counts() %}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<b>Category</b>
+	</div>
+	<div class="list-group">
+		{% for key, cnt in blog_property_counts.category %}
+		<a class="list-group-item" href="{{urlFor('blog_list_filter', {'filter': 'category', 'value': key})}}">
+			{{key}} <span class="badge">{{cnt}}</span>
+		</a>
+		{% endfor %}
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<b>Tag</b>
+	</div>
+	<div class="list-group">
+		{% for key, cnt in blog_property_counts.tag %}
+		<a class="list-group-item" href="{{urlFor('blog_list_filter', {'filter': 'tag', 'value': key})}}">
+			{{key}} <span class="badge">{{cnt}}</span>
+		</a>
+		{% endfor %}
+	</div>
+</div>

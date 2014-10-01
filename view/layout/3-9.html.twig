@@ -1,0 +1,22 @@
+<div class="wrapper">
+	<div class="container">
+		<div class="row">
+			{#--------------------
+			 # sidebar
+			 #--------------------#}
+			<div class="col-sm-3">
+				{% block sidebar %}
+					Display the sidebar here.
+				{% endblock %}
+			</div>
+			{#--------------------
+			 # content
+			 #--------------------#}
+			<div class="col-sm-9">
+				{% block content %}
+					Display the content here.
+				{% endblock %}
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,77 @@
+{
+	"title": "blog",
+	"type": "object",
+	"properties": {
+		"id": {
+			"propertyOrder" : 1,
+			"type": "integer",
+			"readOnly": true
+		},
+		"title": {
+			"propertyOrder" : 2,
+			"type": "string",
+			"minLength": 1
+		},
+		"date": {
+			"propertyOrder" : 10,
+			"type": "string",
+			"format": "date",
+			"pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+		},
+		"author": {
+			"propertyOrder" : 11,
+			"type": "string"
+		},
+		"body": {
+			"propertyOrder" : 12,
+			"type": "string",
+			"format": "html",
+			"options": {
+				"wysiwyg": true
+			},
+			"minLength": 1
+		},
+		"body_more": {
+			"propertyOrder" : 13,
+			"type": "string",
+			"format": "html",
+			"options": {
+				"wysiwyg": true
+			}
+		},
+		"category": {
+			"propertyOrder" : 100,
+			"type": "string"
+		},
+		"tag": {
+			"propertyOrder" : 101,
+			"type": "string"
+		},
+		"status": {
+			"propertyOrder" : 102,
+			"type": "string",
+			"enum": [
+				"下書き",
+				"保留中",
+				"公開",
+				"ゴミ箱"
+			]
+		},
+		"updated_at": {
+			"propertyOrder" : 103,
+			"type": "string",
+			"readOnly": true
+		},
+		"created_at": {
+			"propertyOrder" : 104,
+			"type": "string",
+			"readOnly": true
+		}
+	},
+	"required": [
+		"id", "title",
+		"date", "author", "body", "body_more",
+		"category", "tag", "status", "updated_at", "created_at"
+	],
+	"additionalProperties": false
+}

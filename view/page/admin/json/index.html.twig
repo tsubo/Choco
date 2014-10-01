@@ -1,0 +1,162 @@
+{% extends "layout/base.html.twig" %}
+
+{#--------------------
+ # page title
+ #--------------------#}
+{% block page_title %}Data{% endblock %}
+
+{#-----------------------------------------------------
+ # body id (This is used to identify the page in css.)
+ #-----------------------------------------------------#}
+{% block body_id %}admin-json-list{% endblock %}
+
+{#--------------------
+ # document header
+ #--------------------#}
+{% block doc_header %}
+	{% include 'partial/admin/doc_header_admin_json.html.twig' %}
+{% endblock %} {# dec_header #}
+
+{#--------------------
+ # layout
+ #--------------------#}
+{% block layout %}
+	{% embed 'layout/3-9.html.twig' %}
+		{#--------------------
+		 # content
+		 #--------------------#}
+		{% block content %}
+			<h2>{{json_name|capitalize}}</h2>
+			{% if filter is defined %}
+				<p class="lead">{{filter.type}}: {{filter.value}}</p>
+			{% endif %}
+
+			{% include 'partial/flash.html.twig' %}
+
+			<form id="delete-form" action="" method="post">
+				<input type="hidden" name="{{csrf_key}}" value="{{csrf_token}}">
+				<input type="hidden" name="_METHOD" value="DELETE">
+			</form>
+
+			<form action="{{urlFor('admin_json_list', {'name': json_name})}}" method="post">
+				<input type="hidden" name="{{csrf_key}}" value="{{csrf_token}}">
+				<input type="hidden" name="_METHOD" value="DELETE">
+
+				<div class="table-responsive">
+					<table class="table">
+						<tr>
+							<td colspan="7">
+								<a href="{{urlFor('admin_json_new', {'name': json_name})}}" class="btn btn-primary">New</a>
+							</td>
+							<td class="text-center">
+								<button type="submit" class="btn btn-danger confirm-bulk-delete" data-disable-with="Processing..." disabled>Delete</button>
+							</td>
+						</tr>
+						<tr>
+							<th class="text-right">ID</th>
+							<th>Title</th>
+							<th>Category</th>
+							<th>Tag</th>
+							<th>Status</th>
+							<th>Created</th>
+							<th>Operation</th>
+							<th class="text-center">
+								<label><input type="checkbox" id="check-bulk-delete"></label>
+							</th>
+						</tr>
+						{% for data in pagination %}
+							{% set admin_json_data_url = urlFor('admin_json_data', {'name': json_name, 'id': data.id}) %}
+							<tr>
+								<td class="text-right">{{data.id}}</td>
+								<td>
+									<a href="{{admin_json_data_url}}">{{data.title}}</a>
+								</td>
+								<td>{{data.category}}</td>
+								<td>{{data.tag}}</td>
+								<td>{{data.status}}</td>
+								<td>{{data.created_at|date("Y/m/d H:i")}}</td>
+								<td>
+									<a href="{{admin_json_data_url}}">Edit</a> |
+									<a class="confirm-delete" href="{{admin_json_data_url}}">Delete</a>
+								</td>
+								<td class="text-center">
+									<label><input class="check-delete" type="checkbox" name="delete_items[]" value="{{data.id}}"></label>
+								</td>
+							</tr>
+						{% endfor %}
+						<tr>
+							<td colspan="7">
+								<a href="{{urlFor('admin_json_new', {'name': json_name})}}" class="btn btn-primary">New</a>
+							</td>
+							<td class="text-center">
+								<button type="submit" class="btn btn-danger confirm-bulk-delete" data-disable-with="Processing..." disabled>Delete</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</form>
+			{% if filter is defined %}
+				{% include 'partial/pagination.html.twig' with {
+					'pager': pagination.getPaginationData,
+					'url': urlFor('admin_json_list_filter', {'name': json_name, 'filter': filter.type, 'value': filter.value})
+				} %}
+			{% else %}
+				{% include 'partial/pagination.html.twig' with {
+					'pager': pagination.getPaginationData,
+					'url': urlFor('admin_json_list', {'name': json_name})
+				} %}
+			{% endif %}
+		{% endblock %} {# content #}
+
+		{#--------------------
+		 # sidebar
+		 #--------------------#}
+		{% block sidebar %}
+			{% include 'partial/admin/sidebar_admin.html.twig' %}
+			{% include 'partial/admin/sidebar_admin_json.html.twig' with {
+				'json_name': json_name,
+				'filter': filter
+			}%}
+		{% endblock %} {# sidebar #}
+	{% endembed %}
+{% endblock %} {# layout #}
+
+{% block javascript %}
+	{{ parent() }}
+	<script type="text/javascript" charset="utf-8">
+
+$(function(){
+	$('#check-bulk-delete').on('click', function () {
+		var checked = $(this).is(':checked');
+		$('.check-delete').prop('checked', checked);
+
+		var disabled = $('.check-delete:checked').length > 0 ? false : true;
+		$('.confirm-bulk-delete').prop('disabled', disabled);
+	});
+
+	$('.check-delete').on('click', function () {
+		var disabled = $('.check-delete:checked').length > 0 ? false : true;
+		$('.confirm-bulk-delete').prop('disabled', disabled);
+	});
+
+	$('.confirm-bulk-delete').on('click', function () {
+		if (!confirm('本当に削除しますか？')) {
+			return false;
+		}
+	});
+
+	$('.confirm-delete').on('click', function () {
+		if (!confirm('本当に削除しますか？')) {
+			return false;
+		}
+		var url = $(this).attr('href');
+		var $form = $('#delete-form')
+		$form.attr('action', url);
+		$form.submit();
+
+		return false;
+	});
+});
+
+	</script>
+{% endblock %}

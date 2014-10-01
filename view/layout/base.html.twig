@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		{% block css %}
+			<!-- Bootstrap Theme CSS-->
+			{% include '@theme/partial/css.html.twig' %}
+			<!-- Choco CSS -->
+			<link rel="stylesheet" href="{{_webroot_url ~ '/assets/css/base.css'}}">
+		{% endblock %}
+
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+		{% block title %}
+			<title>{% block page_title %}Page Title{% endblock %} | {{_config['site_title']}} </title>
+		{% endblock %}
+	</head>
+
+	<body id="{% block body_id %}{% endblock %}" class="{% block body_class %}{% endblock %}">
+
+		<!-- webroot warning -->
+		<div class="choco-warning-webroot" style="padding:15px;font-size:24px;color:#a94442;background-color:#f2dede;border:1px solid #ebccd1;border-radius:4px">
+			If you are seeing this message,<br>
+			please set the 'webroot' in config.php file.
+		</div>
+
+		{#--------------------
+		 # header
+		 #--------------------#}
+		{% block header %}
+			{% include 'partial/header.html.twig' %}
+		{% endblock %}
+
+		{#--------------------
+		 # document header
+		 #--------------------#}
+		{% block doc_header %} {% endblock %}
+
+		{#--------------------
+		 # layout
+		 #--------------------#}
+		{% block layout %}
+			{% embed 'layout/12.html.twig' %}
+				{% block content %}
+					Display the content here.
+				{% endblock %}
+			{% endembed %}
+		{% endblock %}
+
+		{#--------------------
+		 # footer
+		 #--------------------#}
+		{% block footer %}
+			{% include 'partial/footer.html.twig' %}
+		{% endblock %}
+
+		<!-- JavaScript -->
+		{% block javascript %}
+			<script src="{{_webroot_url ~ '/assets/vendor/jquery/jquery.js'}}"></script>
+			<script src="{{_webroot_url ~ '/assets/vendor/bootstrap/js/bootstrap.min.js'}}"></script>
+			<script src="{{_webroot_url ~ '/assets/vendor/holderjs/holder.js'}}"></script>
+			<script src="{{_webroot_url ~ '/assets/js/base.js'}}"></script>
+			{% include '@theme/partial/js.html.twig' %}
+		{% endblock %}
+	</body>
+</html>

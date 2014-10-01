@@ -1,0 +1,45 @@
+<div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="{{siteUrl('/')}}">CHOCO</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		{% set resource_uri = _app.request.getResourceUri() %}
+		<div class="collapse navbar-collapse">
+			<ul class="nav navbar-nav">
+				{# Menu Item #}
+				<li class="{{resource_uri == '/' ? 'active'}}"><a href="{{siteUrl('/')}}">Home</a></li>
+				<li class="{{resource_uri == '/page' ? 'active'}}"><a href="{{siteUrl('page')}}">Page</a></li>
+				<li class="{{resource_uri starts with '/blog' ? 'active'}}"><a href="{{siteUrl('blog')}}">Blog</a></li>
+				<li class="{{resource_uri == '/contact' ? 'active'}}"><a href="{{siteUrl('contact')}}">Contact</a></li>
+
+				{# ----- MENU ITEM SKELETON -----
+				<li class="{{resource_uri == '__PATH__' ? 'active'}}"><a href="{{siteUrl('__PATH__')}}">__MENU_TITLE__</a></li>
+				 -------------------------------- #}
+			</ul>
+
+			{# For Admin #}
+			<ul class="nav navbar-nav navbar-right">
+				{% if _session.user is defined %}
+					<li class="{{resource_uri == '/admin' ? 'active'}}"><a href="{{siteUrl('admin')}}">Admin</a></li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">{{_session.user}}<span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="{{siteUrl('admin/logout')}}">Logout</a></li>
+						</ul>
+					</li>
+				{% else %}
+					<li class="{{resource_uri == '/admin/login' ? 'active'}}"><a href="{{siteUrl('admin/login')}}">Login</a></li>
+				{% endif %}
+			</ul>
+		</div><!-- /.nav-collapse -->
+	</div><!-- /.container -->
+</div><!-- /.navbar -->

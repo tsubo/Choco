@@ -1,0 +1,136 @@
+{% extends "layout/base.html.twig" %}
+
+{% block css %}
+	<link rel="stylesheet" href="{{_webroot_url ~ '/assets/vendor/SCEditor/minified/jquery.sceditor.default.min.css'}}">
+	<link rel="stylesheet" href="{{_webroot_url ~ '/assets/vendor/SCEditor/minified/themes/default.min.css'}}">
+	{{ parent() }}
+{% endblock %}
+
+{#--------------------
+ # page title
+ #--------------------#}
+{% block page_title %}Data{% endblock %}
+
+{#-----------------------------------------------------
+ # body id (This is used to identify the page in css.)
+ #-----------------------------------------------------#}
+{% block body_id %}admin-json-data{% endblock %}
+
+{#--------------------
+ # document header
+ #--------------------#}
+{% block doc_header %}
+	{% include 'partial/admin/doc_header_admin_json.html.twig' %}
+{% endblock %} {# dec_header #}
+
+{#--------------------
+ # layout
+ #--------------------#}
+{% block layout %}
+	{% embed 'layout/3-9.html.twig' %}
+		{#--------------------
+		 # content
+		 #--------------------#}
+		{% block content %}
+			{% include 'partial/flash.html.twig' %}
+
+			{# <h2>{{json_name}}</h2> #}
+			<form id="save-form" action="{{action}}" method="post">
+				<input type="hidden" name="{{csrf_key}}" value="{{csrf_token}}">
+				{% if method is defined %}
+					<input type="hidden" name="_METHOD" value="{{method}}">
+				{% endif %}
+				<input id="json-data" type="hidden" name="json_data" value="">
+			</form>
+
+			<div>
+				<h4 class="pull-right"><span id="valid_indicator" class="label label-success"></span></h4>
+			</div>
+
+			<div id="editor_holder"></div>
+
+			<button id="submit" class="btn btn-success" type="submit" data-disable-with="Processing..." form="save-form">{{ (method is defined) ? 'Update' : 'Add' }}</button>
+		{% endblock %} {# content #}
+
+		{#--------------------
+		 # sidebar
+		 #--------------------#}
+		{% block sidebar %}
+			{% include 'partial/admin/sidebar_admin.html.twig' %}
+		{% endblock %} {# sidebar #}
+	{% endembed %}
+{% endblock %} {# layout #}
+
+{% block javascript %}
+	{{ parent() }}
+	<script src="{{_webroot_url ~ '/assets/vendor/json-editor/jsoneditor.js'}}"></script>
+	<script src="{{_webroot_url ~ '/assets/vendor/SCEditor/minified/jquery.sceditor.bbcode.min.js'}}"></script>
+	<script src="{{_webroot_url ~ '/assets/vendor/SCEditor/minified/jquery.sceditor.xhtml.min.js'}}"></script>
+
+	<script type="text/javascript" charset="utf-8">
+
+(function(){
+	var is_first_change = true;
+	var is_leave_confirm = false;
+	var starting_value = {{ json_data|raw }};
+	var schema = {{ json_schema|raw }};
+
+	window.onbeforeunload = function(event) {
+		if (is_leave_confirm) {
+			event = event || window.event;
+			event.returnValue = 'ページから移動しますか？';
+		}
+	};
+
+	var editor = new JSONEditor(document.getElementById('editor_holder'),  {
+		"startval": starting_value,
+		"theme": "bootstrap3",
+		"iconlib": "bootstrap3",
+		"disable_collapse": true,
+		"disable_edit_json": true,
+		"disable_properties": true,
+		"no_additional_properties": true,
+		"required_by_default": true,
+		"show_errors": "always",
+		"schema": schema
+	});
+
+	editor.on('change',function() {
+		var errors = editor.validate();
+		var indicator = document.getElementById('valid_indicator');
+		var submit_button = document.getElementById('submit');
+
+		if (!is_first_change) {
+			is_leave_confirm = true;
+		}
+		is_first_change = false;
+		
+		if(errors.length) {
+			indicator.textContent = "not valid";
+			indicator.classList.remove("label-success");
+			indicator.classList.add("label-danger");
+
+			submit_button.classList.remove("btn-success");
+			submit_button.classList.add("btn-danger");
+			submit_button.disabled = true;
+		}
+		else {
+			indicator.textContent = "valid";
+			indicator.classList.remove("label-danger");
+			indicator.classList.add("label-success");
+
+			submit_button.classList.remove("btn-danger");
+			submit_button.classList.add("btn-success");
+			submit_button.disabled = false;
+		}
+	});
+
+	document.getElementById('submit').addEventListener('click', function() {
+		is_leave_confirm = false;
+
+		var value = editor.getValue();
+		document.getElementById('json-data').value = JSON.stringify(value);
+	});
+}());
+	</script>
+{% endblock %}

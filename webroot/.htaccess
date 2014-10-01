@@ -1,0 +1,9 @@
+<IfModule mod_rewrite.c>
+RewriteEngine ON
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+# Prevent file browsing
+Options -Indexes
+

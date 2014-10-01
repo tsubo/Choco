@@ -1,0 +1,47 @@
+{% if pager.pageCount > 1 %}
+<div class="pagination-wrap">
+	<ul class="pagination pagination-lg">
+		{# first #}
+		{% set disabled = (pager.first is defined and pager.current != pager.first) ? "" : "disabled" %}
+		<li class="prev {{disabled}}">
+			<a href="{{ url ~ '?page=' ~ pager.first }}">&lt;&lt;</a>
+		</li>
+
+		{# prev #}
+		{% if pager.previous is defined %}
+			<li class="prev">
+				<a href="{{ url ~ '?page=' ~ pager.previous }}">Prev</a>
+			</li>
+		{% else %}
+			<li class="prev disabled"><a href="#">Prev</a></li>
+		{% endif %}
+
+		{# position #}
+		<li class="disabled"><a href="#">{{pager.current}} / {{pager.pageCount}}</a></li>
+
+		{# pages
+		{% for page in pager.pagesInRange %}
+			<li {% if page == pager.current %}class="active"{% endif %}>
+				<a href="{{ url ~ '?page=' ~ page }}">{{page}}</a>
+			</li>
+		{% endfor %}
+		#}
+
+		{# next #}
+		{% set disabled = (pager.next is defined) ? "" : "disabled" %}
+		{% if pager.next is defined %}
+			<li class="next">
+				<a href="{{ url ~ '?page=' ~ pager.next }}">Next</a>
+			</li>
+		{% else %}
+			<li class="next disabled"><a href="#">Next</a></li>
+		{% endif %}
+
+		{# last #}
+		{% set disabled = (pager.last is defined and pager.current != pager.last) ? "" : "disabled" %}
+		<li class="next {{disabled}}">
+			<a href="{{ url ~ '?page=' ~ pager.last }}">&gt;&gt;</a>
+		</li>
+	</ul>
+</div><!-- /pagination-wrap -->
+{% endif %}

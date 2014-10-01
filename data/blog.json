@@ -1,0 +1,15 @@
+[
+    {
+        "id": 1,
+        "title": "Hello World!",
+        "date": "2014-10-01",
+        "author": "user1",
+        "body": "<p> <img src=\"http:\/\/placekitten.com\/200\/140\"><br>\n<\/p>\n<p>\n\t ようこそ Choco CMS の世界へ！<br>\n<\/p>",
+        "body_more": "",
+        "category": "choco",
+        "tag": "kitten",
+        "status": "公開",
+        "updated_at": "2014-10-01T10:52:42+09:00",
+        "created_at": "2014-10-01T09:07:56+09:00"
+    }
+]

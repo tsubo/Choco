@@ -1,0 +1,38 @@
+{% extends "layout/base.html.twig" %}
+
+{#--------------------
+ # page title
+ #--------------------#}
+{% block page_title %}__PAGE TITLE__{% endblock %}
+
+{#-----------------------------------------------------
+ # body id (This is used to identify the page by css.)
+ #-----------------------------------------------------#}
+{% block body_id %}__BODY ID__{% endblock %}
+
+{#--------------------
+ # document header
+ #--------------------#}
+{% block doc_header %}
+	{% embed 'partial/doc_header.html.twig' %}
+		{% block content %}
+			<h1>__DOC HEADER TITLE__</h1>
+			<p class="lead">__DOC HEADER LEAD__</p>
+		{% endblock %}
+	{% endembed %}
+{% endblock %} {# dec_header #}
+
+{#--------------------
+ # layout
+ #--------------------#}
+{% block layout %}
+	{% embed 'layout/12.html.twig' %}
+		{#--------------------
+		 # content
+		 #--------------------#}
+		{% block content %}
+			<h2>__CONTENT__</h2>
+		{% endblock %} {# content #}
+	{% endembed %}
+{% endblock %} {# layout #}
+

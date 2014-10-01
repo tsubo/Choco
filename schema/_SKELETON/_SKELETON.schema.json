@@ -1,0 +1,58 @@
+{
+	"title": "skeleton",
+	"type": "object",
+	"properties": {
+		"id": {
+			"propertyOrder" : 1,
+			"type": "integer",
+			"readOnly": true
+		},
+		"title": {
+			"propertyOrder" : 2,
+			"type": "string",
+			"minLength": 1
+		},
+		"some_property1": {
+			"propertyOrder" : 10,
+			"type": "string"
+		},
+		"some_property2": {
+			"propertyOrder" : 11,
+			"type": "string"
+		},
+		"category": {
+			"propertyOrder" : 100,
+			"type": "string"
+		},
+		"tag": {
+			"propertyOrder" : 101,
+			"type": "string"
+		},
+		"status": {
+			"propertyOrder" : 102,
+			"type": "string",
+			"enum": [
+				"下書き",
+				"保留中",
+				"公開",
+				"ゴミ箱"
+			]
+		},
+		"updated_at": {
+			"propertyOrder" : 103,
+			"type": "string",
+			"readOnly": true
+		},
+		"created_at": {
+			"propertyOrder" : 104,
+			"type": "string",
+			"readOnly": true
+		}
+	},
+	"required": [
+		"id", "title",
+		"some_property1", "some_property2",
+		"category", "tag", "status", "updated_at", "created_at"
+	],
+	"additionalProperties": false
+}

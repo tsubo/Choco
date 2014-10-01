@@ -1,0 +1,21 @@
+{% set req = _app.request %}
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xml:lang="ja-JP" xmlns="http://www.w3.org/2005/Atom">
+  <title>{{_config.blog.title}}</title>
+  <subtitle>{{_config.blog.subtitle}}</subtitle>
+  <link href="{{siteUrl('blog/atom')}}" rel="self" type="application/atom+xml"/>
+  <link href="{{siteUrl('blog')}}" rel="alternate" type="text/html"/>
+	<updated>{{date()|date(constant('DATE_ATOM'))}}</updated>
+  <id>tag:{{req.getHost()}},2014:{{siteUrl('/blog/atom')}}</id>
+
+	{% for article in articles %}
+  <entry>
+    <title>{{article.title}}</title>
+    <link href="{{req.getUrl() ~ urlFor('blog_post', {'id': article.id})}}" rel="alternate" type="text/html"/>
+		<id>tag:{{req.getHost()}},2014:{{req.getUrl() ~ urlFor('blog_post', {'id': article.id})}}</id>
+    <published>{{article.created_at}}</published>
+    <updated>{{article.updated_at}}</updated>
+    <content type="html">{{article.body}}</content>
+  </entry>
+	{% endfor %}
+</feed>

@@ -1,0 +1,132 @@
+{% extends "layout/base.html.twig" %}
+
+{#--------------------
+ # page title
+ #--------------------#}
+{% block page_title %}Image{% endblock %}
+
+{#-----------------------------------------------------
+ # body id (This is used to identify the page in css.)
+ #-----------------------------------------------------#}
+{% block body_id %}admin-image-list{% endblock %}
+
+{#--------------------
+ # document header
+ #--------------------#}
+{% block doc_header %}
+	{% include 'partial/admin/doc_header_admin_image.html.twig' %}
+{% endblock %} {# dec_header #}
+
+{#--------------------
+ # layout
+ #--------------------#}
+{% block layout %}
+	{% embed 'layout/3-9.html.twig' %}
+		{#--------------------
+		 # content
+		 #--------------------#}
+		{% block content %}
+			<h2>{{image_name|capitalize}}</h2>
+
+			{% include 'partial/flash.html.twig' %}
+
+			<form id="upload-form" enctype="multipart/form-data" action="{{urlFor('admin_image_list', {'name': image_name})}}" method="post">
+				<input type="hidden" name="{{csrf_key}}" value="{{csrf_token}}">
+				<input type="hidden" name="MAX_FILE_SIZE" value="{{_config.admin.upload_max_file_size}}" />
+				<input id="file-input" class="hidden" type="file" name="upload_files[]" multiple>
+			</form>
+			<form id="delete-form" action="{{urlFor('admin_image_list', {'name': image_name})}}" method="post">
+				<input type="hidden" name="{{csrf_key}}" value="{{csrf_token}}">
+				<input type="hidden" name="_METHOD" value="DELETE">
+			</form>
+
+			<div>
+				<div class="input-group">
+					<span class="input-group-btn">
+						<button class="btn btn-primary" type="button" onclick="$('#file-input').click();">
+							<i class="glyphicon glyphicon-folder-open"></i>
+						</button>
+					</span>
+					<input id="dummy_file" type="text" class="form-control" placeholder="Select File..." disabled>
+				</div>
+				<button id="upload-btn" type="submit" form="upload-form" class="btn btn-primary" data-disable-with="Processing..." disabled>Upload</button>
+				
+				<button id="delete-btn" type="submit" form="delete-form" class="btn btn-danger pull-right" data-disable-with="Processing..." disabled>Delete</button>
+			</div>
+
+			<div class="row spacer15">
+				{% set cnt = 1 %}
+				{% for file in pagination %}
+					<div class="col-xs-6 col-sm-4 col-md-3">
+						{% set file_path = _webroot_url ~ '/img/' ~ image_name ~ '/' ~ file %}
+						<a href="{{file_path}}" class="thumbnail">
+							{% if file|split('.')|last == 'pdf' %}
+								<span class="glyphicon glyphicon-file"></span>
+							{% else %}
+								<img src="{{file_path}}" alt="{{file}}">
+							{% endif %}
+						</a>
+						<div class="caption text-center">
+							<label>
+								<input class="check-delete" form="delete-form" type="checkbox" name="delete_files[]" value="{{file}}"> {{file}}
+							</label>
+						</div>
+					</div>
+					{% if cnt is divisible by(2) %}
+						<div class="clearfix visible-xs-block"></div>
+					{% endif %}
+					{% if cnt is divisible by(3) %}
+						<div class="clearfix visible-sm-block"></div>
+					{% endif %}
+					{% if cnt is divisible by(4) %}
+						<div class="clearfix visible-md-block visible-lg-block"></div>
+					{% endif %}
+					{% set cnt = cnt + 1 %}
+				{% endfor %}
+			</div>
+
+			{% include 'partial/pagination.html.twig' with {
+				'pager': pagination.getPaginationData,
+				'url': urlFor('admin_image_list', {'name': image_name})
+			} %}
+		{% endblock %} {# content #}
+		{#--------------------
+		 # sidebar
+		 #--------------------#}
+		{% block sidebar %}
+			{% include 'partial/admin/sidebar_admin.html.twig' %}
+		{% endblock %} {# sidebar #}
+	{% endembed %}
+{% endblock %} {# layout #}
+
+{% block javascript %}
+	{{ parent() }}
+<script type="text/javascript">
+$(function(){
+	$('#file-input').change(function() {
+		var filelist = $('#file-input').prop('files') || [];
+		var len = filelist.length;
+		if (len > 0) {
+			var filename = filelist[0].name;
+			if (len > 1) {
+				filename = len + "つのファイル";
+			}
+			$('#dummy_file').val(filename);
+		}
+		$('#upload-btn').prop('disabled', (len === 0));
+	});
+
+	$('.check-delete').on('click', function () {
+		var disabled = $('.check-delete:checked').length > 0 ? false : true;
+		$('#delete-btn').prop('disabled', disabled);
+	});
+
+	$('#delete-btn').on('click', function () {
+		if (!confirm('本当に削除しますか？')) {
+			return false;
+		}
+	});
+
+});
+</script>
+{% endblock %} {# javascript #}

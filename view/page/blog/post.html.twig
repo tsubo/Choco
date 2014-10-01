@@ -1,0 +1,53 @@
+{% extends "layout/base.html.twig" %}
+
+{#--------------------
+ # page title
+ #--------------------#}
+ {% block page_title %}{{_config.blog.title}}{% endblock %}
+
+{#-----------------------------------------------------
+ # body id (This is used to identify the page in css.)
+ #-----------------------------------------------------#}
+{% block body_id %}blog-post{% endblock %}
+
+{#--------------------
+ # document header
+ #--------------------#}
+{% block doc_header %}
+	{% embed 'partial/doc_header.html.twig' %}
+		{% block content %}
+		<h1>{{_config.blog.title}}</h1>
+		<p class="lead">{{_config.blog.subtitle}}</p>
+		{% endblock %}
+	{% endembed %}
+{% endblock %} {# dec_header #}
+
+{#--------------------
+ # layout
+ #--------------------#}
+{% block layout %}
+	{% embed 'layout/8-4.html.twig' %}
+		{#--------------------
+		 # content
+		 #--------------------#}
+		{% block content %}
+			<article class="choco-blog-post">
+				<h2>{{post.title}}</h2>
+
+				<p>{{post.body|raw}}</p>
+				<p>{{post.body_more|raw}}</p>
+
+				{# meta info #}
+				{% include 'partial/blog/post_meta.html.twig' %}
+			</article>
+		{% endblock %} {# content #}
+
+		{#--------------------
+		 # sidebar
+		 #--------------------#}
+		{% block sidebar %}
+			{% include 'partial/blog/sidebar_blog.html.twig' %}
+		{% endblock %}
+	{% endembed %}
+{% endblock %} {# layout #}
+

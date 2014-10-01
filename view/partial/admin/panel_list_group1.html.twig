@@ -1,0 +1,9 @@
+<div class="list-group">
+	{% set current_path = _app.request.getRootUri() ~ _app.request.getResourceUri() %}
+	{% for key, value in list %}
+		{% set url = urlFor(named_route, {'name': key}) %}
+		<a href="{{url}}" class="list-group-item {{url == current_path ? 'active'}}">
+			{{key}} <span class="badge">{{value}}</span>
+		</a>
+	{% endfor %}
+</div>

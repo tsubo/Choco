@@ -1,0 +1,12 @@
+<p>
+Date: {{post.date|date("Y/m/d")}}
+{% if post.author is not empty %}
+	| Author: <a href="{{ urlFor('blog_list_filter', {'filter': 'author', 'value': post.author}) }}">{{post.author}}</a>
+{% endif %}
+{% if post.category is not empty %}
+	| Category: <a href="{{ urlFor('blog_list_filter', {'filter': 'category', 'value': post.category}) }}">{{post.category}}</a>
+{% endif %}
+{% if post.category is not empty %}
+	| Tag: <a href="{{ urlFor('blog_list_filter', {'filter': 'tag', 'value': post.tag}) }}">{{post.tag}}</a>
+{% endif %}
+</p>
