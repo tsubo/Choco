@@ -1,0 +1,239 @@
+/*-----------------------------------------------------------------------------
+ * Choco Default CSS
+ *----------------------------------------------------------------------------*/
+/*
+ * base
+ */
+.choco-warning-webroot {
+  display: none;
+}
+body {
+  padding-top: 70px;
+}
+/* body padding required for bootstrap navbar-fixed */
+.wrapper {
+  margin: 20px 0;
+}
+/* spacer */
+.spacer {
+  margin-top: 5px;
+}
+.spacer10 {
+  margin-top: 10px;
+}
+.spacer15 {
+  margin-top: 15px;
+}
+.spacer20 {
+  margin-top: 20px;
+}
+.spacer25 {
+  margin-top: 25px;
+}
+.spacer30 {
+  margin-top: 30px;
+}
+.spacer35 {
+  margin-top: 35px;
+}
+.spacer40 {
+  margin-top: 40px;
+}
+.spacer45 {
+  margin-top: 45px;
+}
+.spacer50 {
+  margin-top: 50px;
+}
+/*
+ * header
+ */
+.navbar-brand {
+  color: #fff !important;
+}
+/*
+ * doc header
+ */
+.choco-doc-header {
+  background-color: #6f5499;
+  padding: 30px 0;
+  margin-top: -20px;
+}
+.choco-doc-header h1 {
+  font-size: 32px;
+  color: #fff;
+  margin: 0 0 15px 0;
+}
+.choco-doc-header p {
+  color: #cdbfe3;
+  margin-bottom: 10px;
+}
+/*
+ * footer
+ */
+.footer {
+  margin-top: 30px;
+  padding: 20px 0 10px;
+  border-top: 1px solid #e5e5e5;
+  text-align: center;
+  color: lightgrey;
+}
+/*
+ * home
+ */
+#home .choco-doc-header {
+  text-align: center;
+  padding: 60px 0;
+}
+#home .choco-doc-header h1 {
+  font-size: 48px;
+  margin: 0 0 20px 0;
+}
+#home .choco-doc-header p {
+  font-size: 24px;
+  margin-bottom: 50px;
+}
+#home .choco-doc-header .btn {
+  animation-delay: 5s;
+  -webkit-animation-delay: 5s;
+}
+#home .choco-featurette {
+  text-align: center;
+  margin-top: 20px;
+}
+#home .choco-featurette .glyphicon {
+  margin-top: 20px;
+  font-size: 56px;
+}
+#home .choco-featurette p {
+  text-align: left;
+  margin-bottom: 40px;
+}
+/*
+ * blog
+ */
+.choco-blog-post p {
+  line-height: 1.7;
+}
+/* pagination */
+.pagination-wrap {
+  text-align: center;
+}
+.pagination-wrap .pagination li:first-child > a {
+  display: none;
+}
+.pagination-wrap .pagination li:last-child > a {
+  display: none;
+}
+.pagination-wrap .pagination li:nth-child(2) > a {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+.pagination-wrap .pagination li:nth-last-child(2) > a {
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+/*
+ * Admin
+ */
+#login form {
+  max-width: 500px;
+}
+/* blog menu */
+.panel-title {
+  color: #333;
+}
+.panel-collapse .panel {
+  border: 0;
+  border-top: 1px solid #ddd;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.panel-collapse .panel .list-group:first-child .list-group-item:first-child {
+  border-top-left-radius: 0!important;
+  border-top-right-radius: 0!important;
+}
+/* image */
+#admin-image-list .thumbnail {
+  margin-bottom: 5px;
+  text-align: center;
+}
+#admin-image-list .thumbnail .glyphicon {
+  font-size: 112px;
+}
+#admin-image-list .caption {
+  margin-bottom: 20px;
+}
+#admin-image-list .input-group {
+  width: 50%;
+  float: left;
+  margin-right: 10px;
+}
+/* SCEditor */
+.sceditor-container {
+  width: 100%!important;
+}
+.sceditor-container iframe {
+  width: 98%!important;
+}
+.sceditor-button {
+  box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+}
+.sceditor-button-emoticon {
+  display: none;
+}
+[data-schemaformat="html"] {
+  display: none;
+}
+/*=============================================================================
+ * Small devices (tablets, 768px and up)
+ *============================================================================*/
+@media (min-width: 768px) {
+  /*
+	 * doc header
+	 */
+  .choco-doc-header h1 {
+    font-size: 48px;
+  }
+  /*
+	 * home
+	 */
+  #home .choco-doc-header h1 {
+    font-size: 64px;
+  }
+  /*
+	 * login
+	 */
+  #login form {
+    padding: 20px 40px;
+    max-width: 580px;
+  }
+  #login form button {
+    width: 100%;
+  }
+  /*
+	 * pagination
+	 */
+  .pagination-wrap .pagination li:first-child > a {
+    display: inline;
+  }
+  .pagination-wrap .pagination li:last-child > a {
+    display: inline;
+  }
+  .pagination-wrap .pagination li:nth-child(2) > a {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .pagination-wrap .pagination li:nth-last-child(2) > a {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+/*=============================================================================
+ * Medium devices (desktops, 992px and up)
+ *============================================================================*/
+/*=============================================================================
+ * Large devices (large desktops, 1200px and up)
+ *============================================================================*/
