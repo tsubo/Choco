@@ -33,3 +33,11 @@ php -S localhost:8000
 ```
 
 wwwブラウザで http://localhost:8000 を表示
+
+ドキュメント
+-----------------------------
+ドキュメントは[こちら](https://github.com/tsubo/Choco/wiki)
+
+License
+-----------------------------
+The Choco CMS is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
