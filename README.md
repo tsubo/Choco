@@ -36,7 +36,8 @@ wwwブラウザで http://localhost:8000 を表示
 
 ドキュメント
 -----------------------------
-ドキュメントは[こちら](https://github.com/tsubo/Choco/wiki)
+- [公式サイト](http://tsubo.github.io/Choco/)
+- [ドキュメント](https://github.com/tsubo/Choco/wiki)
 
 License
 -----------------------------
