@@ -169,6 +169,10 @@ body {
   float: left;
   margin-right: 10px;
 }
+/* Json Data */
+#admin-json-data .form-group + div {
+  display: none;
+}
 /* SCEditor */
 .sceditor-container {
   width: 100%!important;
