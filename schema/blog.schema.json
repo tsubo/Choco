@@ -72,6 +72,5 @@
 		"id", "title",
 		"date", "author", "body", "body_more",
 		"category", "tag", "status", "updated_at", "created_at"
-	],
-	"additionalProperties": false
+	]
 }

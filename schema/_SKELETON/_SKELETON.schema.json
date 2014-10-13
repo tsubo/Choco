@@ -53,6 +53,5 @@
 		"id", "title",
 		"some_property1", "some_property2",
 		"category", "tag", "status", "updated_at", "created_at"
-	],
-	"additionalProperties": false
+	]
 }
