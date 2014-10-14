@@ -53,7 +53,7 @@
 					</p>
 
 					{# meta info #}
-					{% include 'partial/blog/post_meta.html.twig' %}
+					{% include 'partial/blog/post_meta.html.twig' with {'url_name': 'blog_list_filter'} %}
 					<hr>
 				</article>
 			{% endfor %}
@@ -74,7 +74,10 @@
 		 # sidebar
 		 #--------------------#}
 		{% block sidebar %}
-			{% include 'partial/blog/sidebar_blog.html.twig' %}
+			{% include 'partial/blog/sidebar_post.html.twig' with {
+				'data_name': 'blog',
+				'url_name': 'blog_list_filter'
+			} %}
 		{% endblock %}
 	{% endembed %}
 {% endblock %} {# layout #}

@@ -14,19 +14,6 @@ if (isset($config['blog'])) {
 }
 
 /*
- * Extending Twig Function
- */
-$function = new \Twig_SimpleFunction('blog_property_counts', function () {
-	$json_path = DATA_PATH . "/blog.json";
-	$json = new JsonFile($json_path);
-
-	return $json->property_counts(function ($data) {
-		return $data['status'] === '公開';
-	}); 
-});
-$twig->addFunction($function);
-
-/*
  * Routing
  */
 $app->get('/blog/:filter/:value', function($filter, $value) use ($app, $config) {

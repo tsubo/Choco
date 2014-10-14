@@ -76,13 +76,6 @@ if (!empty($config['theme'])) {
 }
 
 /*
- * Set Application-wide route conditions
- */
-\Slim\Route::setDefaultConditions(array(
-	'id' => '[0-9]+',
-));
-
-/*
  * Set config to twig global valiables
  */
 $req = $app->request;
@@ -97,6 +90,26 @@ if (!empty($config['webroot'])) {
 	$webroot_url .= $config['webroot'];
 }
 $twig->addGlobal('_webroot_url', $webroot_url);
+
+/*
+ * Extending Twig Function
+ */
+$function = new \Twig_SimpleFunction('data_property_counts', function ($data_name) {
+	$json_path = DATA_PATH . "/${data_name}.json";
+	$json = new JsonFile($json_path);
+
+	return $json->property_counts(function ($data) {
+		return $data['status'] === '公開';
+	}); 
+});
+$twig->addFunction($function);
+
+/*
+ * Set Application-wide route conditions
+ */
+\Slim\Route::setDefaultConditions(array(
+	'id' => '[0-9]+',
+));
 
 /*
  * extension
