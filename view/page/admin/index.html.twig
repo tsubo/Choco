@@ -71,50 +71,55 @@
 					</div>
 				</div><!-- /.col-sm-4 -->
 			</div><!-- /.row -->
+			<hr>
 
-			<h2>Blog</h2>
-			{% set json_property_counts = json_property_counts('blog') %}
-			<div class="row">
-				<div class="col-sm-4">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h3 class="panel-title">Status</h3>
+			{% set json_data_counts = json_data_counts() %}
+			{% for key, value in json_data_counts %}
+			<h2>{{key|capitalize}}</h2>
+				{% set json_property_counts = json_property_counts(key) %}
+				<div class="row">
+					<div class="col-sm-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Status</h3>
+							</div>
+							{% include 'partial/admin/panel_list_group2.html.twig' with {
+								'name': key,
+								'filter': 'status',
+								'list': json_property_counts.status,
+								'named_route': 'admin_json_list_filter'
+							} %}
 						</div>
-						{% include 'partial/admin/panel_list_group2.html.twig' with {
-							'name': 'blog',
-							'filter': 'status',
-							'list': json_property_counts.status,
-							'named_route': 'admin_json_list_filter'
-						} %}
-					</div>
-				</div><!-- /.col-sm-4 -->
-				<div class="col-sm-4">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h3 class="panel-title">Category</h3>
+					</div><!-- /.col-sm-4 -->
+					<div class="col-sm-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Category</h3>
+							</div>
+							{% include 'partial/admin/panel_list_group2.html.twig' with {
+								'name': key,
+								'filter': 'category',
+								'list': json_property_counts.category,
+								'named_route': 'admin_json_list_filter'
+							} %}
 						</div>
-						{% include 'partial/admin/panel_list_group2.html.twig' with {
-							'name': 'blog',
-							'filter': 'category',
-							'list': json_property_counts.category,
-							'named_route': 'admin_json_list_filter'
-						} %}
-					</div>
-				</div><!-- /.col-sm-4 -->
-				<div class="col-sm-4">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h3 class="panel-title">Tag</h3>
+					</div><!-- /.col-sm-4 -->
+					<div class="col-sm-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Tag</h3>
+							</div>
+							{% include 'partial/admin/panel_list_group2.html.twig' with {
+								'name': key,
+								'filter': 'tag',
+								'list': json_property_counts.tag,
+								'named_route': 'admin_json_list_filter'
+							} %}
 						</div>
-						{% include 'partial/admin/panel_list_group2.html.twig' with {
-							'name': 'blog',
-							'filter': 'tag',
-							'list': json_property_counts.tag,
-							'named_route': 'admin_json_list_filter'
-						} %}
-					</div>
-				</div><!-- /.col-sm-4 -->
-			</div><!-- /.row -->
+					</div><!-- /.col-sm-4 -->
+				</div><!-- /.row -->
+				<hr>
+			{% endfor %}
 
 			<div>
 				<p class="pull-right">Choco Ver. {{ver}}</p>
