@@ -34,27 +34,29 @@
 			<h2>お問い合わせ</h2>
 			{% include 'partial/flash.html.twig' %}
 
+			{% set post = _app.request().post() %}
 			<form action="mail" method="post">
 				<input type="hidden" name="{{csrf_key}}" value="{{csrf_token}}">
+				<input type="hidden" name="mail_form" value="page/contact.html.twig">
 				<div class="form-group">
 					<label for="name">お名前</label>
-					<input type="text" id="name" class="form-control" name="name" required autofocus>
+					<input type="text" id="name" class="form-control" name="name" value="{{post.name}}" required autofocus>
 				</div>
 				<div class="form-group">
 					<label for="email">メールアドレス</label>
-					<input type="email" id="email" class="form-control" name="email" required>
+					<input type="email" id="email" class="form-control" name="email" value="{{post.email}}" required>
 				</div>
 				<div class="form-group">
 					<label for="confirm-email">メールアドレス（確認用）</label>
-					<input type="email" id="confirm-email" class="form-control" required>
+					<input type="email" id="confirm-email" class="form-control" value="{{post.email}}" required>
 				</div>
 				<div class="form-group">
 					<label for="subject">件名</label>
-					<input type="text" id="subject" class="form-control" name="subject" required>
+					<input type="text" id="subject" class="form-control" name="subject" value="{{post.subject}}" required>
 				</div>
 				<div class="form-group">
 					<label for="message">本文</label>
-					<textarea id="message" class="form-control" rows="10" name="message" required></textarea>
+					<textarea id="message" class="form-control" rows="10" name="message" required>{{post.message}}</textarea>
 				</div>
 				<button type="submit" class="btn btn-primary" data-disable-with="送信中...">送信</button>
 			</form>

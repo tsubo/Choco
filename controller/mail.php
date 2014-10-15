@@ -24,8 +24,6 @@ $app->post('/mail', function() use ($app, $config) {
 	$encryption = $conf['encryption'] ? $conf['encryption'] : null;
 	$log->debug(print_r($conf, true));
 
-	// TODO: 送信２度押し対策
-
 	$transport = \Swift_SmtpTransport::newInstance($conf['host'], $conf['port'], $encryption)
 		->setUsername($conf['user'])
 		->setPassword($conf['password']);
@@ -51,17 +49,23 @@ $app->post('/mail', function() use ($app, $config) {
 	} catch (Exception $e) {
 		$app->flash('danger', "送信エラーが発生しました: " . $e->getMessage());
 	}
-	$redirect_path = $_SESSION['prev_uri'] ?: sitePath("/");
-	$app->redirect($redirect_path);
+
+	if (empty($post['mail_form'])) {
+		$redirect_path = $_SESSION['prev_uri'] ?: sitePath("/");
+		$app->redirect($redirect_path);
+	} else {
+		$app->render($post['mail_form']);
+	}
 });
 
 function post2body($post) {
 	$body = "";
 	foreach ($post as $key => $value) {
-		if ($key != CSRF_TOKEN_KEY) {
-			$body .= "[$key]\n";
-			$body .= "$value\n\n";
+		if ($key == CSRF_TOKEN_KEY || $key == 'mail_form') {
+			continue;
 		}
+		$body .= "[$key]\n";
+		$body .= "$value\n\n";
 	}
 	return $body;
 }
