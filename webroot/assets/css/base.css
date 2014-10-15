@@ -173,6 +173,9 @@ body {
 #admin-json-data .form-group + div {
   display: none;
 }
+#admin-json-data .form-group textarea {
+  width: 100%!important;
+}
 /* SCEditor */
 .sceditor-container {
   width: 100%!important;
