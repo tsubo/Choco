@@ -46,10 +46,7 @@
 		 # sidebar
 		 #--------------------#}
 		{% block sidebar %}
-			{% include 'partial/blog/sidebar_post.html.twig' with {
-				'data_name': 'blog',
-				'url_name': 'blog_list_filter'
-			} %}
+			{% include 'partial/blog/sidebar_post.html.twig' %}
 		{% endblock %}
 	{% endembed %}
 {% endblock %} {# layout #}

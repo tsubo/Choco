@@ -133,6 +133,13 @@ body {
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
 }
+/* calendar */
+.choco-post-calendar th {
+  text-align: center;
+}
+.choco-post-calendar td {
+  text-align: center;
+}
 /*
  * Admin
  */

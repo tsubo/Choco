@@ -1,0 +1,37 @@
+{% macro calendar(yyyymm, date_counts) %}
+	{% set date_counts_keys = date_counts|keys %}
+	{% set day = date(yyyymm) %}
+	{% set month = day|date('m') %}
+	{% set year = day|date('Y') %}
+	{% set day = day|date_modify('-' ~ day|date('w') ~ 'days') %}
+	<div class="text-center">
+		<h4>{{ year }}年{{ month }}月</h4>
+		<table class="table choco-post-calendar">
+			<tr>
+				<th>日</th>
+				<th>月</th>
+				<th>火</th>
+				<th>水</th>
+				<th>木</th>
+				<th>金</th>
+				<th>土</th>
+			</tr>
+			{% for i in (0..5) %}
+			<tr>
+				{% for j in (0..6) %}
+					{% if day|date('m') == month %}
+						{% if day|date('Y-m-d') in date_counts_keys %}
+						<td><a href="{{urlFor('blog_list_date', {'value': day|date('Y-m-d')})}}">{{ day|date('j') }}</a></td>
+						{% else %}
+							<td>{{ day|date('j') }}</td>
+						{% endif %}
+					{% else %}
+						<td>&nbsp;</td>
+					{% endif %}
+					{% set day = day|date_modify('+1day') %}
+				{% endfor %}
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+{% endmacro %}

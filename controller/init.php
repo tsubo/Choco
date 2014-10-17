@@ -52,9 +52,28 @@ if (!isset($config['twig'])) {
 $config['twig'] = array_merge($default_config_twig, $config['twig']);
 
 /*
- * Instantiate a Slim application with Twig.
+ * Instantiate a Slim application
  */
 $app = new \Slim\Slim($config['slim']);
+
+/*
+ * Set Application-wide route conditions
+ */
+\Slim\Route::setDefaultConditions(array(
+	'id' => '[0-9]+',
+));
+
+/*
+ * middleware
+ */
+$app->add(new \Slim\Extras\Middleware\CsrfGuard(CSRF_TOKEN_KEY));
+
+/*
+ * hook
+ */
+$app->hook('slim.after.dispatch', function () {
+	$_SESSION['prev_uri'] = \filter_input(\INPUT_SERVER, 'REQUEST_URI');
+});
 
 // Set Twig options.
 $view = $app->view();
@@ -104,35 +123,41 @@ $function = new \Twig_SimpleFunction('data_property_counts', function ($data_nam
 });
 $twig->addFunction($function);
 
-/*
- * Set Application-wide route conditions
- */
-\Slim\Route::setDefaultConditions(array(
-	'id' => '[0-9]+',
-));
+$function = new \Twig_SimpleFunction('data_date_counts', function ($data_name, $yyyymm) use ($app) {
+	$json_path = DATA_PATH . "/${data_name}.json";
+	$json = new JsonFile($json_path);
+
+	$datas = $json->find_by_filter(function($data) use ($yyyymm) {
+		if ($data['status'] !== '公開') {
+			return false;
+		}
+		return (strpos($data['date'], $yyyymm) === 0) ? true : false;
+	});
+
+	$date_counts = array();
+	foreach($datas as $data) {
+		$date = $data['date'];
+		if (!isset($date_counts[$date])) {
+			$date_counts[$date] = 0;
+		}
+		$date_counts[$date]++;
+	}
+
+	return $date_counts;
+});
+$twig->addFunction($function);
 
 /*
- * extension
+ * Twig Extension
  */
+$twig->addExtension(new Twig_Extension_Debug);
+
 use Aptoma\Twig\Extension\MarkdownExtension;
 use Aptoma\Twig\Extension\MarkdownEngine;
 use Aptoma\Twig\TokenParser\MarkdownTokenParser;
-
 $engine = new MarkdownEngine\MichelfMarkdownEngine();
 $twig->addExtension(new MarkdownExtension($engine));
 $twig->addTokenParser(new MarkdownTokenParser($engine));
-
-/*
- * middleware
- */
-$app->add(new \Slim\Extras\Middleware\CsrfGuard(CSRF_TOKEN_KEY));
-
-/*
- * hook
- */
-$app->hook('slim.after.dispatch', function () {
-	$_SESSION['prev_uri'] = \filter_input(\INPUT_SERVER, 'REQUEST_URI');
-});
 
 /*
  * for debug

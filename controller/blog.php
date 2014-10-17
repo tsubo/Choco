@@ -16,6 +16,25 @@ if (isset($config['blog'])) {
 /*
  * Routing
  */
+$app->get('/blog/date/:value', function($value) use ($app, $config) {
+	$page = $app->request()->get('page');
+	$page = empty($page) ? 1 : $page;
+
+	$json = new JsonFile(DATA_PATH . '/blog.json');
+	$json->reverse();
+	$pagination = $json->getPagination($page, $config['blog']['limit_per_page'], function($data) use ($value){
+		return ($data['status'] === '公開' && strpos($data['date'], $value) === 0) ? true : false;
+	});
+	$data = array(
+		'pagination' => $pagination,
+		'filter' => array(
+			'type' => 'date',
+			'value' => $value
+		)
+	);
+	$app->render('page/blog/index.html.twig', $data);
+})->name('blog_list_date');
+
 $app->get('/blog/:filter/:value', function($filter, $value) use ($app, $config) {
 	$page = $app->request()->get('page');
 	$page = empty($page) ? 1 : $page;
