@@ -13,7 +13,7 @@
     <title>{{article.title}}</title>
     <link href="{{req.getUrl() ~ urlFor('blog_post', {'id': article.id})}}" rel="alternate" type="text/html"/>
 		<id>tag:{{req.getHost()}},2014:{{req.getUrl() ~ urlFor('blog_post', {'id': article.id})}}</id>
-    <published>{{article.created_at}}</published>
+    <published>{{article.date|date("Y-m-d\\TH:i:sP")}}</published>
     <updated>{{article.updated_at}}</updated>
     <content type="html">{{article.body}}</content>
   </entry>
