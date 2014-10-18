@@ -21,7 +21,7 @@ $app->get('/blog/date/:value', function($value) use ($app, $config) {
 	$page = empty($page) ? 1 : $page;
 
 	$json = new JsonFile(DATA_PATH . '/blog.json');
-	$json->reverse();
+	$json->rsort('date');
 	$pagination = $json->getPagination($page, $config['blog']['limit_per_page'], function($data) use ($value){
 		return ($data['status'] === '公開' && strpos($data['date'], $value) === 0) ? true : false;
 	});
@@ -40,7 +40,7 @@ $app->get('/blog/:filter/:value', function($filter, $value) use ($app, $config) 
 	$page = empty($page) ? 1 : $page;
 
 	$json = new JsonFile(DATA_PATH . '/blog.json');
-	$json->reverse();
+	$json->rsort('date');
 	$pagination = $json->getPagination($page, $config['blog']['limit_per_page'], function($data) use ($filter, $value){
 		return ($data['status'] === '公開' && $data[$filter] === $value) ? true : false;
 	});
@@ -56,7 +56,7 @@ $app->get('/blog/:filter/:value', function($filter, $value) use ($app, $config) 
 
 $app->get('/blog/atom', function() use ($app) {
 	$json = new JsonFile(DATA_PATH . '/blog.json');
-	$json->reverse();
+	$json->rsort('date');
 	$articles = $json->find_by_filter(function ($article) {
 		return ($article['status'] === '公開') ? true : false;
 	});
@@ -85,7 +85,7 @@ $app->get('/blog', function() use ($app, $config) {
 	$page = empty($page) ? 1 : $page;
 
 	$json = new JsonFile(DATA_PATH . '/blog.json');
-	$json->reverse();
+	$json->rsort('date');
 	$pagination = $json->getPagination($page, $config['blog']['limit_per_page'], function($data) {
 		return ($data['status'] === '公開') ? true : false;
 	});

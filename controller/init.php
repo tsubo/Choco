@@ -150,7 +150,7 @@ $twig->addFunction($function);
 $function = new \Twig_SimpleFunction('data_recent', function ($data_name, $row) use ($app) {
 	$json_path = DATA_PATH . "/${data_name}.json";
 	$json = new JsonFile($json_path);
-	$json->reverse();
+	$json->rsort('date');
 
 	$datas = $json->find_by_filter(function($data) {
 		return $data['status'] === '公開';

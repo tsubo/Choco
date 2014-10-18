@@ -71,6 +71,15 @@ class JsonFile {
 		$this->datas = array_reverse($this->datas);
 	}
 
+	public function rsort($property) {
+		usort($this->datas, function($a, $b) use ($property) {
+			if ($a[$property] == $b[$property]) {
+				return 0;
+			}
+			return ($a[$property] < $b[$property]) ? 1 : -1;
+		});
+	}
+
 	public function add(&$data) {
 		$this->last_id++;
 		$data['id'] = $this->last_id;
