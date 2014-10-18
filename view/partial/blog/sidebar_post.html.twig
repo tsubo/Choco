@@ -1,15 +1,17 @@
-{% set yyyymm = date('first day of this month')|date('Y-m') %}
-{% set data_date_counts = data_date_counts('blog', yyyymm) %}
-{% import 'partial/blog/post_calendar.html.twig' as cal %}
-{{ cal.calendar(yyyymm, data_date_counts) }}
+{% set json = get_json_file('blog', '公開') %}
 
-{% set data_property_counts = data_property_counts('blog') %}
+{% set yyyymm = date('first day of this month')|date('Y-m') %}
+{% set post_date_counts = post_date_counts(json, yyyymm) %}
+{% import 'partial/blog/post_calendar.html.twig' as cal %}
+{{ cal.calendar(yyyymm, post_date_counts) }}
+
+{% set post_property_counts = post_property_counts(json) %}
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<b>カテゴリ</b>
 	</div>
 	<div class="list-group">
-		{% for key, cnt in data_property_counts.category %}
+		{% for key, cnt in post_property_counts.category %}
 		<a class="list-group-item" href="{{urlFor('blog_list_filter', {'filter': 'category', 'value': key})}}">
 			{{key}} <span class="badge">{{cnt}}</span>
 		</a>
@@ -22,7 +24,7 @@
 		<b>タグ</b>
 	</div>
 	<div class="list-group">
-		{% for key, cnt in data_property_counts.tag %}
+		{% for key, cnt in post_property_counts.tag %}
 		<a class="list-group-item" href="{{urlFor('blog_list_filter', {'filter': 'tag', 'value': key})}}">
 			{{key}} <span class="badge">{{cnt}}</span>
 		</a>
@@ -30,13 +32,13 @@
 	</div>
 </div>
 
-{% set data_recent = data_recent('blog', 5) %}
+{% set post_recent = post_recent(json, 5) %}
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<b>最近の投稿</b>
 	</div>
 	<div class="list-group">
-		{% for data in data_recent %}
+		{% for data in post_recent %}
 		<a class="list-group-item" href="{{urlFor('blog_post', {'id': data.id})}}">
 			{{data['title']}}
 		</a>
@@ -44,7 +46,7 @@
 	</div>
 </div>
 
-{% set archives = data_archives('blog', 5) %}
+{% set archives = post_archives(json, 5) %}
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<b>アーカイブ</b>

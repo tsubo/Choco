@@ -113,24 +113,26 @@ $twig->addGlobal('_webroot_url', $webroot_url);
 /*
  * Extending Twig Function
  */
-$function = new \Twig_SimpleFunction('data_property_counts', function ($data_name) {
+$function = new \Twig_SimpleFunction('get_json_file', function ($data_name, $status = null) {
 	$json_path = DATA_PATH . "/${data_name}.json";
 	$json = new JsonFile($json_path);
 
-	return $json->property_counts(function ($data) {
-		return $data['status'] === '公開';
-	}); 
+	if ($status) {
+		$json->datas = array_filter($json->datas, function ($data) use ($status){
+			return $data['status'] === $status;
+		});
+	}
+	return $json;
 });
 $twig->addFunction($function);
 
-$function = new \Twig_SimpleFunction('data_date_counts', function ($data_name, $yyyymm) use ($app) {
-	$json_path = DATA_PATH . "/${data_name}.json";
-	$json = new JsonFile($json_path);
+$function = new \Twig_SimpleFunction('post_property_counts', function ($json) {
+	return $json->property_counts();
+});
+$twig->addFunction($function);
 
+$function = new \Twig_SimpleFunction('post_date_counts', function ($json, $yyyymm) {
 	$datas = $json->find_by_filter(function($data) use ($yyyymm) {
-		if ($data['status'] !== '公開') {
-			return false;
-		}
 		return (strpos($data['date'], $yyyymm) === 0) ? true : false;
 	});
 
@@ -147,29 +149,15 @@ $function = new \Twig_SimpleFunction('data_date_counts', function ($data_name, $
 });
 $twig->addFunction($function);
 
-$function = new \Twig_SimpleFunction('data_recent', function ($data_name, $row) use ($app) {
-	$json_path = DATA_PATH . "/${data_name}.json";
-	$json = new JsonFile($json_path);
+$function = new \Twig_SimpleFunction('post_recent', function ($json, $row) {
 	$json->rsort('date');
-
-	$datas = $json->find_by_filter(function($data) {
-		return $data['status'] === '公開';
-	});
-
-	return array_slice($datas, 0, $row);
+	return array_slice($json->datas, 0, $row);
 });
 $twig->addFunction($function);
 
-$function = new \Twig_SimpleFunction('data_archives', function ($data_name, $row) use ($app) {
-	$json_path = DATA_PATH . "/${data_name}.json";
-	$json = new JsonFile($json_path);
-
-	$datas = $json->find_by_filter(function($data) {
-		return $data['status'] === '公開';
-	});
-
+$function = new \Twig_SimpleFunction('post_archives', function ($json, $row) {
 	$archives = array();
-	foreach($datas as $data) {
+	foreach($json->datas as $data) {
 		$yyyymm = substr($data['date'], 0, 7);
 		if (!isset($archives[$yyyymm])) {
 			$archives[$yyyymm] = 0;

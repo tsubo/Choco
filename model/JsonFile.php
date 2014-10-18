@@ -41,14 +41,10 @@ class JsonFile {
 			if (isset($callback) && !$callback($data)) {
 				continue;
 			}
-			if (isset($data['category'])) {
-				$this->property_countup($property_counts['category'], $data['category']);
-			}
-			if (isset($data['tag'])) {
-				$this->property_countup($property_counts['tag'], $data['tag']);
-			}
-			if (isset($data['status'])) {
-				$this->property_countup($property_counts['status'], $data['status']);
+			foreach ($property_counts as $key => &$count_array) {
+				if (isset($data[$key])) {
+					$this->property_countup($count_array, $data[$key]);
+				}
 			}
 		}
 		foreach ($property_counts as &$property_count) {
