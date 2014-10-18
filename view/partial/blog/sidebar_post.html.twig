@@ -29,3 +29,31 @@
 		{% endfor %}
 	</div>
 </div>
+
+{% set data_recent = data_recent('blog', 5) %}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<b>最近の投稿</b>
+	</div>
+	<div class="list-group">
+		{% for data in data_recent %}
+		<a class="list-group-item" href="{{urlFor('blog_post', {'id': data.id})}}">
+			{{data['title']}}
+		</a>
+		{% endfor %}
+	</div>
+</div>
+
+{% set archives = data_archives('blog', 5) %}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<b>アーカイブ</b>
+	</div>
+	<div class="list-group">
+		{% for key, cnt in archives %}
+		<a class="list-group-item" href="{{urlFor('blog_list_date', {'value': key})}}">
+			{{key}} <span class="badge">{{cnt}}</span>
+		</a>
+		{% endfor %}
+	</div>
+</div>

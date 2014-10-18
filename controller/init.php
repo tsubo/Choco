@@ -147,6 +147,40 @@ $function = new \Twig_SimpleFunction('data_date_counts', function ($data_name, $
 });
 $twig->addFunction($function);
 
+$function = new \Twig_SimpleFunction('data_recent', function ($data_name, $row) use ($app) {
+	$json_path = DATA_PATH . "/${data_name}.json";
+	$json = new JsonFile($json_path);
+	$json->reverse();
+
+	$datas = $json->find_by_filter(function($data) {
+		return $data['status'] === '公開';
+	});
+
+	return array_slice($datas, 0, $row);
+});
+$twig->addFunction($function);
+
+$function = new \Twig_SimpleFunction('data_archives', function ($data_name, $row) use ($app) {
+	$json_path = DATA_PATH . "/${data_name}.json";
+	$json = new JsonFile($json_path);
+
+	$datas = $json->find_by_filter(function($data) {
+		return $data['status'] === '公開';
+	});
+
+	$archives = array();
+	foreach($datas as $data) {
+		$yyyymm = substr($data['date'], 0, 7);
+		if (!isset($archives[$yyyymm])) {
+			$archives[$yyyymm] = 0;
+		}
+		$archives[$yyyymm]++;
+	}
+
+	return $archives;
+});
+$twig->addFunction($function);
+
 /*
  * Twig Extension
  */
