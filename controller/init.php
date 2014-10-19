@@ -169,6 +169,12 @@ $function = new \Twig_SimpleFunction('post_archives', function ($json, $row) {
 });
 $twig->addFunction($function);
 
+$function = new \Twig_SimpleFunction('load_rss', function ($url) {
+	$feed = Feed::loadRss($url);
+	return $feed->toArray();
+});
+$twig->addFunction($function);
+
 /*
  * Twig Extension
  */
