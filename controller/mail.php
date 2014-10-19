@@ -32,6 +32,7 @@ $app->post('/mail', function() use ($app, $config) {
 	$body = post2body($post);
 	$log->debug($body);
 
+	$flash_msg = array();
 	try	{
 		$message = \Swift_Message::newInstance()
 			->setSubject($post['subject'])
@@ -42,18 +43,27 @@ $app->post('/mail', function() use ($app, $config) {
 		$result = $mailer->send($message);
 
 		if ($result > 0) {
-			$app->flash('success', "送信しました");
+			$flash_msg["key"] = "success";
+			$flash_msg["message"] = "送信しました";
 		} else {
-			$app->flash('danger', "送信エラーが発生しました");
+			$flash_msg["key"] = "danger";
+			$flash_msg["message"] = "送信エラーが発生しました";
 		}
 	} catch (Exception $e) {
-		$app->flash('danger', "送信エラーが発生しました: " . $e->getMessage());
+		$flash_msg["key"] = "danger";
+		$flash_msg["message"] = "送信エラーが発生しました" . $e->getMessage();
 	}
 
 	if (empty($post['mail_form'])) {
+		if (count($flash_msg) > 0) {
+			$app->flash($flash_msg["key"], $flash_msg["message"]);
+		}
 		$redirect_path = $_SESSION['prev_uri'] ?: sitePath("/");
 		$app->redirect($redirect_path);
 	} else {
+		if (count($flash_msg) > 0) {
+			$app->flashNow($flash_msg["key"], $flash_msg["message"]);
+		}
 		$app->render($post['mail_form']);
 	}
 });
