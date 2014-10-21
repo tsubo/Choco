@@ -125,10 +125,18 @@
 	});
 
 	document.getElementById('submit').addEventListener('click', function() {
-		is_leave_confirm = false;
+		var errors = editor.validate();
+		if(errors.length) {
+			console.log(errors);
+			alert("There are input error.");
+			event.preventDefault();
+			return false;
+		} else {
+			is_leave_confirm = false;
 
-		var value = editor.getValue();
-		document.getElementById('json-data').value = JSON.stringify(value);
+			var value = editor.getValue();
+			document.getElementById('json-data').value = JSON.stringify(value);
+		}
 	});
 }());
 	</script>
