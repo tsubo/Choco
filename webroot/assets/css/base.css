@@ -115,6 +115,10 @@ body {
 .choco-blog-post p {
   line-height: 1.7;
 }
+.choco-blog-post img,
+.choco-blog-post iframe {
+  max-width: 100%;
+}
 /* pagination */
 .pagination-wrap {
   text-align: center;
