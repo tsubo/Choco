@@ -10,6 +10,8 @@ define('MODEL_PATH', ROOT_PATH . '/model');
 define('SCHEMA_PATH', ROOT_PATH . '/schema');
 define('DATA_PATH', ROOT_PATH . '/data');
 define('IMAGE_PATH', ROOT_PATH . '/webroot/img');
+define('TEMP_PATH', ROOT_PATH . '/tmp');
+define('TWIG_CACHE_PATH', TEMP_PATH . '/cache');
 
 require_once(dirname(__FILE__) . '/_helper.php');
 require_once(dirname(__FILE__) . '/CsrfGuard.php');
@@ -45,6 +47,7 @@ $config['slim'] = array_merge($default_config_slim, $config['slim']);
 // twig config
 $default_config_twig = array(
 	'debug' => true,
+	'cache' => TWIG_CACHE_PATH,
 );
 if (!isset($config['twig'])) {
 	$config['twig'] = array();
