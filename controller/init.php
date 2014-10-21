@@ -3,7 +3,7 @@
  * Initialize Slim application with Twig.
  */
 
-define('VERSION', '1.0.0');
+define('VERSION', '1.0.2');
 define('CSRF_TOKEN_KEY', 'csrf_key');
 define('VIEW_PATH', ROOT_PATH . '/view');
 define('MODEL_PATH', ROOT_PATH . '/model');
